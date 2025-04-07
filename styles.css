@@ -56,7 +56,9 @@
   transition: color 0.3s ease;
 }
 
-
+.bg-custom-orange {
+  background-color: #ff6600;
+}
 
 /* Bouton */
 .btn {

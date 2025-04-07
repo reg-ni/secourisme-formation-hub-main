@@ -21,6 +21,7 @@
       <meta name="keywords" content="formation secourisme Lyon, SST, sauveteur secouriste du travail, prévention des risques professionnels, gestes et postures, défibrillateur, MAC SST, sécurité au travail, formation premiers secours Rhône, SEMA PREV contact, formation risques professionnels Lyon">
   
     <!-- Add Tailwind CDN for easy styling -->
+  
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
   </head>
@@ -32,10 +33,10 @@
           <img src="images/logogras.webp" alt="SEMA PREV Logo">
       </div>
       <ul class="nav-links text-lg px-40">
-          <li><a href="#accueil">Accueil</a></li>
-          <li><a href="#formations">Formations</a></li>
-          <li><a href="#about">À propos</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="index.html#formations">Formations</a></li>
+          <li><a href="index.html#about">À propos</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
           <li><a href="#" class="btn">Demander un devis</a></li>
       </ul>
   </nav>
@@ -80,6 +81,38 @@
         </div>
       </div>
     </section>
+
+    <!-- Fenêtre modale (initialement cachée) -->
+<div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-1/2">
+    <button id="close-modal" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <h2 class="text-lg font-semibold mb-4">Inscription à la session</h2>
+    <form id="registration-form" class="space-y-4">
+      <!-- Ici tu peux ajouter ton formulaire comme précédemment -->
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
+        <input type="text" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" required>
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" required>
+      </div>
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">Téléphone</label>
+        <input type="tel" id="phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500" required>
+      </div>
+      <div>
+        <button type="submit" id="submit-button" class="w-full py-3 px-6 text-white bg-orange-500 hover:bg-orange-600 rounded-xl shadow-md transition duration-200" disabled>
+          Envoyer l'inscription
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
     
     <!-- Formulaire d'inscription -->
     <section class="py-12 bg-gray-50">
@@ -95,14 +128,26 @@
           <form id="registration-form" class="space-y-6">
             <!-- Nom complet -->
             <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
               <input 
                 type="text" 
                 id="name" 
                 name="name" 
                 required 
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                placeholder="Entrez votre nom complet"
+                placeholder="Entrez votre nom"
+              >
+            </div>
+
+            <div>
+              <label for="firstname" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+              <input 
+                type="text" 
+                id="firstname" 
+                name="firstname" 
+                required 
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                placeholder="Entrez votre prénom"
               >
             </div>
             
@@ -133,19 +178,6 @@
               </div>
             </div>
             
-            <!-- Entreprise -->
-            <div>
-              <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Entreprise</label>
-              <input 
-                type="text" 
-                id="company" 
-                name="company" 
-                required 
-                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                placeholder="Nom de votre entreprise"
-              >
-            </div>
-            
             <!-- Session sélectionnée -->
             <div>
               <label for="selected-session" class="block text-sm font-medium text-gray-700 mb-1">Session sélectionnée</label>
@@ -161,6 +193,7 @@
               <input type="hidden" id="session-date" name="session-date">
               <input type="hidden" id="session-title" name="session-title">
               <input type="hidden" id="session-location" name="session-location">
+              <input type="hidden" id="session-heures" name="session-heures">
             </div>
             
             <!-- Message optionnel -->
@@ -178,7 +211,7 @@
             <!-- Bouton de soumission -->
             <button 
               type="submit" 
-              class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+              class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
               id="submit-button"
               disabled
             >
@@ -265,17 +298,12 @@
             Contact
           </h3>
           <ul class="space-y-2 text-gray-400">
-            <li class="flex items-start">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-              </svg>
-              123 rue du Secourisme, 75000 Paris
-            </li>
+            
             <li class="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
               </svg>
-              <span>01 23 45 67 89</span>
+              <span>06 23 61 68 95</span>
             </li>
             <li class="flex items-start">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
@@ -303,6 +331,7 @@
         title: 'Atelier IPSEN',
         date: new Date(2025, 3, 5), 
         duration: '2 heures',
+        horaires: '9h-11h',
         spots: 1,
         location: 'Ecully 69 - Clinique du Val D\'Ouest'
       },
@@ -311,6 +340,7 @@
         title: 'Atelier IPSEN',
         date: new Date(2025, 4, 4), 
         duration: '2 heures',
+        horaires: '9h-11h',
         spots: 4,
         location: 'Ecully 69 - Clinique du Val D\'Ouest'
       },
@@ -319,6 +349,7 @@
         title: 'Atelier IPSEN',
         date: new Date(2025, 4, 31), 
         duration: '2 heures',
+        horaires: '9h-11h',
         spots: 5,
         location: 'Ecully 69 - Clinique du Val D\'Ouest'
       },
@@ -327,6 +358,7 @@
         title: 'Atelier IPSEN',
         date: new Date(2025, 5, 21), 
         duration: '2 heures',
+        horaires: '9h-11h',
         spots: 1,
         location: 'Ecully 69 - Clinique du Val D\'Ouest'
       },
@@ -346,6 +378,7 @@
     const sessionDateInput = document.getElementById('session-date');
     const sessionTitleInput = document.getElementById('session-title');
     const sessionLocationInput = document.getElementById('session-location');
+    const sessionHeuresInput = document.getElementById('session-heures');
 
     // Génération des cartes de session
     function renderSessions() {
@@ -378,16 +411,20 @@
                 <span class="mr-2 font-medium">Durée:</span> ${session.duration}
               </div>
               <div class="flex items-center text-sm text-gray-600">
+                <span class="mr-2 font-medium">Heures:</span> ${session.horaires}
+              </div>
+              <div class="flex items-center text-sm text-gray-600">
                 <span class="mr-2 font-medium">Places:</span> ${session.spots} disponibles
               </div>
               <div class="flex items-center text-sm text-gray-600">
                 <span class="mr-2 font-medium">Lieu:</span> ${session.location}
               </div>
             </div>
-            
-            <button class="select-session-btn mt-4 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600">
-              Sélectionner cette session
+
+            <button class="select-session-btn mt-5 w-full py-3 px-6 text-sm font-semibold text-white bg-custom-orange hover:bg-orange-600 rounded-xl shadow transition duration-200" onclick='selectSession(${JSON.stringify(session)})'>
+            Sélectionner cette session
             </button>
+            
           </div>
         `;
         
@@ -401,90 +438,119 @@
       });
     }
 
-    // Sélection d'une session
     function selectSession(session) {
-      // Réinitialiser toutes les cartes
-      document.querySelectorAll('[data-session-id]').forEach(card => {
-        card.classList.remove('selected-card');
-        card.querySelector('.session-check').classList.add('hidden');
-      });
-      
-      // Marquer la session sélectionnée
-      const selectedCard = document.querySelector(`[data-session-id="${session.id}"]`);
-      selectedCard.classList.add('selected-card');
-      selectedCard.querySelector('.session-check').classList.remove('hidden');
-      
-      // Mettre à jour les champs de formulaire
-      selectedSessionId = session.id;
-      selectedSessionInput.value = `${session.title} - ${formatDate(session.date)}`;
-      sessionDateInput.value = formatDate(session.date);
-      sessionTitleInput.value = session.title;
-      sessionLocationInput.value = session.location;
-      
-      // Activer le bouton de soumission
-      submitButton.disabled = false;
+    // Réinitialiser les cartes
+    document.querySelectorAll('[data-session-id]').forEach(card => {
+      card.classList.remove('selected-card');
+      card.querySelector('.session-check').classList.add('hidden');
+    });
+
+    // Marquer la carte sélectionnée
+    const selectedCard = document.querySelector(`[data-session-id="${session.id}"]`);
+    selectedCard.classList.add('selected-card');
+    selectedCard.querySelector('.session-check').classList.remove('hidden');
+
+    // Remplir les champs
+    selectedSessionId = session.id;
+
+    selectedSessionInput.value = `${session.title} - ${formatDate(session.date)} (${session.horaires})`;
+    sessionDateInput.value = formatDate(session.date);
+    sessionTitleInput.value = session.title;
+    sessionLocationInput.value = session.location;
+    sessionHeuresInput.value = session.horaires;
+
+    // Activer le bouton de soumission
+    submitButton.disabled = false;
+
+    // 👉 OUVRIR LA MODALE ICI
+    openModal();
+  }
+
+  // Initialisation lors du chargement de la page
+  document.addEventListener('DOMContentLoaded', function() {
+    // Générer les sessions
+    renderSessions();
+
+  // Toggle du menu mobile
+  const mobileMenuButton = document.getElementById('mobileMenuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  mobileMenuButton.addEventListener('click', function() {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  // Sélectionner les éléments du DOM
+  const modal = document.getElementById('modal');
+  const closeModalButton = document.getElementById('close-modal');
+  const submitButton = document.getElementById('submit-button');
+  const form = document.getElementById('registration-form');
+  const selectButtons = document.querySelectorAll('.select-session-btn');
+  const selectedSessionInput = document.getElementById('selected-session');
+  const sessionDateInput = document.getElementById('session-date');
+  const sessionTitleInput = document.getElementById('session-title');
+  const sessionLocationInput = document.getElementById('session-location');
+  const sessionHeuresInput = document.getElementById('session-heures');
+
+  let selectedSessionId = null;
+
+  // Fonction pour afficher la fenêtre modale
+  function openModal() {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Fonction pour fermer la fenêtre modale
+  function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  
+
+  // Fermer la fenêtre modale lorsqu'on clique sur le bouton de fermeture
+  closeModalButton.addEventListener('click', closeModal);
+
+  // Gestion du formulaire
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (!selectedSessionId) {
+      alert('Veuillez sélectionner une session de formation.');
+      return;
     }
 
-    // Initialisation lors du chargement de la page
-    document.addEventListener('DOMContentLoaded', function() {
-      // Générer les sessions
-      renderSessions();
-      
-      // Toggle du menu mobile
-      const mobileMenuButton = document.getElementById('mobileMenuButton');
-      const mobileMenu = document.getElementById('mobileMenu');
-      
-      mobileMenuButton.addEventListener('click', function() {
-        if (mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.remove('hidden');
-        } else {
-          mobileMenu.classList.add('hidden');
-        }
-      });
-      
-      // Gestion du formulaire
-      const form = document.getElementById('registration-form');
-      
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        if (!selectedSessionId) {
-          alert('Veuillez sélectionner une session de formation.');
-          return;
-        }
-        
-        // Collecter les données du formulaire
-        const formData = {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          phone: document.getElementById('phone').value,
-          company: document.getElementById('company').value,
-          sessionTitle: document.getElementById('session-title').value,
-          sessionDate: document.getElementById('session-date').value,
-          sessionLocation: document.getElementById('session-location').value,
-          message: document.getElementById('message').value
-        };
-        
-        // Dans un vrai cas d'utilisation, vous enverriez ces données via AJAX à un serveur
-        // Pour cet exemple, nous allons simplement simuler l'envoi d'un email
-        console.log('Données à envoyer par email à n.regnier@semaprev.fr:', formData);
-        
-        // Montrer un message de succès
-        alert(`Merci ${formData.name} ! Votre demande d'inscription à la session "${formData.sessionTitle}" a été envoyée avec succès. Nous vous contacterons prochainement pour confirmer votre participation.`);
-        
-        // Réinitialiser le formulaire
-        form.reset();
-        selectedSessionId = null;
-        selectedSessionInput.value = '';
-        submitButton.disabled = true;
-        
-        // Réinitialiser l'affichage des sessions
-        document.querySelectorAll('[data-session-id]').forEach(card => {
-          card.classList.remove('selected-card');
-          card.querySelector('.session-check').classList.add('hidden');
-        });
-      });
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      company: document.getElementById('number').value,
+      sessionTitle: document.getElementById('session-title').value,
+      sessionDate: document.getElementById('session-date').value,
+      sessionHeures: document.getElementById('session-heures').value,
+      sessionLocation: document.getElementById('session-location').value,
+      message: document.getElementById('message').value
+    };
+
+    // Simuler l'envoi
+    console.log('Données à envoyer par email à n.regnier@semaprev.fr:', formData);
+
+    // Message de succès
+    alert(`Merci ${formData.name} ! Votre demande d'inscription à la session "${formData.sessionTitle}" a été envoyée avec succès. Nous vous contacterons prochainement pour confirmer votre participation.`);
+
+    // Réinitialiser
+    closeModal();
+    form.reset();
+    selectedSessionId = null;
+    selectedSessionInput.value = '';
+    submitButton.disabled = true;
+
+    // Réinitialiser l’affichage des sessions
+    document.querySelectorAll('[data-session-id]').forEach(card => {
+      card.classList.remove('selected-card');
+      card.querySelector('.session-check').classList.add('hidden');
     });
+  });
+});
   </script>
 </body>
 </html>
